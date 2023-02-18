@@ -3,9 +3,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
 
-
 function Login() {
   const router = useRouter();
+
+  const onMain = () => {
+    router.push({
+      pathname: "/mypage",
+    });
+  };
 
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -20,46 +25,43 @@ function Login() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  }
+  };
 
   return (
     <>
       <StyledContainer>
-
         <StyledContent>
           <StyledLoginBox>
             <StyledTitle>BodyLog</StyledTitle>
             <form onSubmit={onSubmit}>
-              <StyledInputWrapper>
-                <StyledInput
-                  type="text"
-                  placeholder="아이디"
-                  onChange={onChangeId}
-                  maxLength={20}
-                  required
-                />
-                <StyledInput 
-                  type="password"
-                  placeholder="비밀번호"
-                  onChange={onChangePw}
-                  minLength={8}
-                  required
-                />
-              </StyledInputWrapper>
-              {/* 메인페이지 이동*/}
-              <StyledBtnBox>
-                <StyledLoginBtn type="submit">Login</StyledLoginBtn>
-              </StyledBtnBox>
-              
+              <StyledCover>
+                <StyledInputWrapper>
+                  <StyledInput
+                    type="text"
+                    placeholder="아이디"
+                    onChange={onChangeId}
+                    maxLength={20}
+                    required
+                  />
+                  <StyledInput
+                    type="password"
+                    placeholder="비밀번호"
+                    onChange={onChangePw}
+                    minLength={8}
+                    required
+                  />
+                </StyledInputWrapper>
+                {/* 메인페이지 이동*/}
+                <StyledLoginBtn type="submit" onClick={onMain}>Login</StyledLoginBtn>
+              </StyledCover>
             </form>
           </StyledLoginBox>
 
           {/* 회원가입 페이지 이동 */}
           <StyledLink href="">
-            <StyledP>회원가입</StyledP>
+            <p>회원가입</p>
           </StyledLink>
         </StyledContent>
-
       </StyledContainer>
     </>
   );
@@ -68,7 +70,7 @@ function Login() {
 export default Login;
 
 const StyledContainer = styled.div`
-margin-top: 5rem;
+  margin-top: 10rem;
   display: flex;
   justify-content: center;
   gap: 5rem;
@@ -86,30 +88,31 @@ const StyledContent = styled.div`
 `;
 
 const StyledLoginBox = styled.div`
-  
+  padding: 1rem;
 `;
 
 const StyledTitle = styled.div`
+  margin-bottom: 1.5rem;
   font-size: 1.5rem;
   font-weight: bold;
   color: #059a05;
 `;
 
+const StyledCover = styled.div`
+  flex-direction: row;
+`;
+
 const StyledInputWrapper = styled.div`
-  margin: 1.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 `;
 
 const StyledInput = styled.input`
-  padding: 0.5rem;
+  padding: 0.7rem;
   border: none;
   border-radius: 0.5rem;
-`;
-
-const StyledBtnBox = styled.div`
-  float: right;
 `;
 
 const StyledLoginBtn = styled.button`
@@ -125,28 +128,31 @@ const StyledLoginBtn = styled.button`
   border: 0rem;
   font-weight: 700;
   box-shadow: 0rem 0rem 1rem 0.5rem #cdfcaa;
-  background-image: linear-gradient(45deg, #009c1d 0%, #05cd23  51%, #8dd701  100%);
+  background-image: linear-gradient(
+    45deg,
+    #009c1d 0%,
+    #05cd23 51%,
+    #8dd701 100%
+  );
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
 
-&:hover {
-  background-position: right center;
-  /* change the direction of the change here */
-  color: #fff;
-  text-decoration: none;
-}
+  &:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
 
-&:active {
-  transform: scale(0.95);
-}
+  &:active {
+    transform: scale(0.95);
+  }
 `;
 
 const StyledLink = styled(Link)`
-  
+  text-align: right;
+  color: green;
+  text-decoration: none;
 `;
-const StyledP = styled.p`
-  
-`;
-
