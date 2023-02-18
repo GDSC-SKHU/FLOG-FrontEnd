@@ -1,7 +1,14 @@
-export default function Home() {
+import Login from "./Login";
+
+function Home() {
   return (
     <>
-      <h1>테스트 하이</h1>
+     <Login/>
     </>
   );
 }
+
+export default Home;
+
+
+
