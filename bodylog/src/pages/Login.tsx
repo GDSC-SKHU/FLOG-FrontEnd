@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import axios from 'axios';
 
 function Login() {
   const router = useRouter();
@@ -24,8 +25,45 @@ function Login() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  };
+    const login = async () => {
+      const response = await axios
+        .post('/MockApi/Login', {
+          id: id,
+          password: password,
+        })
+        .then((response) => {
+          localStorage.setItem('logintoken', response.data.accessToken);
+        });
+    };
 
+    login().then(() => {
+      router.push('/mypage');
+    });
+  };
+  //! ===========================================================================================
+  // const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const login = async () => {
+  //     const response = await axios
+  //       .post('/api/main', {
+  //         memberId: inputId,
+  //         password: inputPw,
+  //       })
+  //       .then((response) => {
+  //         localStorage.setItem('logintoken', response.data.accessToken);
+  //       });
+  //   };
+
+  //   login()
+  //     .then(() => {
+  //       swal('로그인 되었습니다!');
+  //       router.push('/Member');
+  //     })
+  //     .catch(() => swal('정보를 다시 입력해주세요'));
+
+  //   // 확인용 alert
+  // };
+  //! ================================================================================================
   return (
     <>
       <StyledContainer>
@@ -47,7 +85,6 @@ function Login() {
           </StyledLoginBox>
 
           {/* 회원가입 페이지 이동 */}
-
           <StyledButton onClick={() => router.push('./register')}>
             <p>회원가입</p>
           </StyledButton>
@@ -88,6 +125,7 @@ const StyledTitle = styled.div`
 `;
 
 const StyledCover = styled.div`
+  display: flex;
   flex-direction: row;
 `;
 
