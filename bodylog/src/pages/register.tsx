@@ -3,6 +3,7 @@
 import router from 'next/router';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 function Register() {
   const [registerId, setRegisterId] = useState(''); // 회원가입용(이하 Rgis) 아이디 상태
@@ -21,8 +22,22 @@ function Register() {
   const handleRegisterPwCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setRegisterPwCheck(e.target.value);
   };
+  // 회원가입 요청 로직
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const register = async () => {
+      const response = await axios
+        .post('/MockRegister', {
+          id: registerId,
+          password: registerPw,
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
     if (registerId == '') {
       setErrMessage('아이디를 입력하세요');
     } else if (registerPw == '') {
@@ -30,31 +45,9 @@ function Register() {
     } else if (registerPw != registerPwCheck) {
       setErrMessage('두 개의 비밀번호가 같지 않습니다');
     } else {
-      router.push('./');
+      register();
     }
   };
-  // const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const login = async () => {
-  //     const response = await axios
-  //       .post('/api/main', {
-  //         memberId: inputId,
-  //         password: inputPw,
-  //       })
-  //       .then((response) => {
-  //         localStorage.setItem('logintoken', response.data.accessToken);
-  //       });
-  //   };
-
-  //   login()
-  //     .then(() => {
-  //       swal('로그인 되었습니다!');
-  //       router.push('/Member');
-  //     })
-  //     .catch(() => swal('정보를 다시 입력해주세요'));
-
-  //   // 확인용 alert
-  // };
 
   return (
     <StyledRegisterPage>
