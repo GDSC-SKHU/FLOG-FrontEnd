@@ -33,6 +33,29 @@ function Register() {
       router.push('./');
     }
   };
+  // const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const login = async () => {
+  //     const response = await axios
+  //       .post('/api/main', {
+  //         memberId: inputId,
+  //         password: inputPw,
+  //       })
+  //       .then((response) => {
+  //         localStorage.setItem('logintoken', response.data.accessToken);
+  //       });
+  //   };
+
+  //   login()
+  //     .then(() => {
+  //       swal('로그인 되었습니다!');
+  //       router.push('/Member');
+  //     })
+  //     .catch(() => swal('정보를 다시 입력해주세요'));
+
+  //   // 확인용 alert
+  // };
+
   return (
     <StyledRegisterPage>
       <StyledH1>BodyLog</StyledH1>
