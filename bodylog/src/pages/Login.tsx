@@ -7,11 +7,12 @@ import swal from 'sweetalert';
 function Login() {
   const router = useRouter();
 
-  const onMain = () => {
-    router.push({
-      pathname: '/mypage',
-    });
-  };
+  // onSubmit과 기능 겹침
+  // const onMain = () => {
+  //   router.push({
+  //     pathname: '/mypage',
+  //   });
+  // };
 
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -60,9 +61,7 @@ function Login() {
                   <StyledInput type='password' placeholder='비밀번호' onChange={onChangePw} minLength={8} required />
                 </StyledInputWrapper>
                 {/* 메인페이지 이동*/}
-                <StyledLoginBtn type='submit' onClick={onMain}>
-                  Login
-                </StyledLoginBtn>
+                <StyledLoginBtn type='submit'>Login</StyledLoginBtn>
               </StyledCover>
             </form>
           </StyledLoginBox>
