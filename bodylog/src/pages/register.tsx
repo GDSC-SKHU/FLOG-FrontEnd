@@ -54,6 +54,7 @@ function Register() {
 }
 
 export default Register;
+
 const StyledH1 = styled.h1`
   margin-top: 2rem;
   font-weight: bold;
