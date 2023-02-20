@@ -1,4 +1,4 @@
-// Gloval style 지정
+// Global style 지정
 
 import { createGlobalStyle } from 'styled-components';
 
