@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 function Login() {
   const router = useRouter();
@@ -22,7 +23,7 @@ function Login() {
   const onChangePw = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
-
+  // 로그인 버튼 로직
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const login = async () => {
@@ -35,35 +36,17 @@ function Login() {
           localStorage.setItem('logintoken', response.data.accessToken);
         });
     };
-
-    login().then(() => {
-      router.push('/mypage');
-    });
+    // 로그인 버튼을 누르면
+    login()
+      // 로그인 성공 시 mypage로 이동
+      .then(() => {
+        router.push('/mypage');
+      })
+      // 서버에 없는 로그인 정보로 인해 에러가 발생하면 alert!
+      .catch(() => {
+        swal('Please check your imformation!');
+      });
   };
-  //! ===========================================================================================
-  // const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const login = async () => {
-  //     const response = await axios
-  //       .post('/api/main', {
-  //         memberId: inputId,
-  //         password: inputPw,
-  //       })
-  //       .then((response) => {
-  //         localStorage.setItem('logintoken', response.data.accessToken);
-  //       });
-  //   };
-
-  //   login()
-  //     .then(() => {
-  //       swal('로그인 되었습니다!');
-  //       router.push('/Member');
-  //     })
-  //     .catch(() => swal('정보를 다시 입력해주세요'));
-
-  //   // 확인용 alert
-  // };
-  //! ================================================================================================
   return (
     <>
       <StyledContainer>
