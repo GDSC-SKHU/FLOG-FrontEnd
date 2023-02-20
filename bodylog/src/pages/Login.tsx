@@ -48,9 +48,10 @@ function Login() {
           </StyledLoginBox>
 
           {/* 회원가입 페이지 이동 */}
-          <StyledLink href=''>
+
+          <StyledButton onClick={() => router.push('./register')}>
             <p>회원가입</p>
-          </StyledLink>
+          </StyledButton>
         </StyledContent>
       </StyledContainer>
     </>
@@ -135,8 +136,10 @@ const StyledLoginBtn = styled.button`
   }
 `;
 
-const StyledLink = styled(Link)`
+
+const StyledButton = styled.button`
+  all: unset;
   text-align: right;
   color: green;
-  text-decoration: none;
+
 `;
