@@ -1,18 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { addMonths, subMonths } from 'date-fns';
 import styled from 'styled-components';
+import RenderHeader from '@/components/RenderHeader';
+import RenderDays from '@/components/RenderDays';
+import RenderCells from '@/components/RenderCells';
 
-function mypage() {
+function Calender() {
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const prevMonth = () => {
+    setCurrentMonth(subMonths(currentMonth, 1));
+  };
+  const nextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 1));
+  };
+  const onDateClick = (day: React.SetStateAction<Date>) => {
+    setSelectedDate(day);
+  };
   return (
-    <>
-      <StyledTitle>BodyLog</StyledTitle>
-    </>
+    <div className='calendar'>
+      <RenderHeader currentMonth={currentMonth} prevMonth={prevMonth} nextMonth={nextMonth} />
+      <RenderDays />
+      <RenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
+    </div>
   );
 }
 
-export default mypage;
-
-const StyledTitle = styled.div`
-  font-weight: bold;
-  font-size: 2rem;
-  text-align: center;
-`;
+export default Calender;

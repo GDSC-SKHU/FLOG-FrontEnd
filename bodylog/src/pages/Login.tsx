@@ -90,9 +90,7 @@ const StyledContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  box-shadow: rgba(139, 200, 170, 0.48) 0.375rem 0.125rem 1rem 0rem, rgba(223, 255, 218, 0.8) 0.375rem 0.125rem 1rem 0rem;
   border-radius: 1.5rem;
-  background-color: #d2ffca;
 `;
 
 const StyledLoginBox = styled.div`
@@ -101,7 +99,8 @@ const StyledLoginBox = styled.div`
 
 const StyledTitle = styled.div`
   margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  text-align: center;
+  font-size: 2.5rem;
   font-weight: bold;
   color: #059a05;
 `;
@@ -120,13 +119,24 @@ const StyledInputWrapper = styled.div`
 
 const StyledInput = styled.input`
   padding: 0.7rem;
-  border: none;
-  border-radius: 0.5rem;
+  all: unset;
+  border: 1px solid #4e4e4e;
+  background-color: #efefef;
+  border-radius: 0.7rem;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  width: 15rem;
+  height: 2rem;
+  padding-left: 0.5rem;
+  &:focus,
+  :hover {
+    background-color: #a8e5cf;
+    transition: all 0.3s;
+  }
 `;
 
 const StyledLoginBtn = styled.button`
-  margin: 1.5rem;
-  padding: 1rem 2rem;
+  margin: 1rem 0.5rem;
+  padding: 2rem 2.5rem;
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
@@ -136,6 +146,7 @@ const StyledLoginBtn = styled.button`
   display: block;
   border: 0rem;
   font-weight: 700;
+  font-size: 1rem;
   box-shadow: 0rem 0rem 1rem 0.5rem #cdfcaa;
   background-image: linear-gradient(45deg, #009c1d 0%, #05cd23 51%, #8dd701 100%);
   cursor: pointer;
