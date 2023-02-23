@@ -9,18 +9,22 @@ function Register() {
   const [registerPw, setRegisterPw] = useState(''); // Rgis 비밀번호 상태
   const [registerPwCheck, setRegisterPwCheck] = useState(''); // Rgis 비밀번호 확인 상태
   const [errMessage, setErrMessage] = useState(''); // 에러 메세지 상태
+
   // Rgis 아이디 input 상태 변화 핸들
   const handleRegisterId = (e: ChangeEvent<HTMLInputElement>) => {
     setRegisterId(e.target.value);
   };
+
   // Rgis 비밀번호 input 상태 변화 핸들
   const handleRegisterPw = (e: ChangeEvent<HTMLInputElement>) => {
     setRegisterPw(e.target.value);
   };
+
   // Rgis 비밀번호 확인 input 상태 변화 핸들
   const handleRegisterPwCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setRegisterPwCheck(e.target.value);
   };
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (registerId == '') {
@@ -33,6 +37,7 @@ function Register() {
       router.push('./');
     }
   };
+
   return (
     <StyledRegisterPage>
       <StyledH1>BodyLog</StyledH1>
