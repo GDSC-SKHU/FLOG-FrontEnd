@@ -20,12 +20,17 @@ function Calender() {
     setSelectedDate(day);
   };
   return (
-    <div className='calendar'>
+    <StyledCalendar>
       <RenderHeader currentMonth={currentMonth} prevMonth={prevMonth} nextMonth={nextMonth} />
       <RenderDays />
       <RenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
-    </div>
+    </StyledCalendar>
   );
 }
 
 export default Calender;
+
+const StyledCalendar = styled.div`
+  margin: 1rem;
+  border: 1px red solid;
+`;

@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { Icon } from '@iconify/react';
+import styled from 'styled-components';
 
 interface HProps {
   currentMonth: any;
@@ -9,19 +10,24 @@ interface HProps {
 
 function RenderHeader({ currentMonth, prevMonth, nextMonth }: HProps) {
   return (
-    <div className='header row'>
+    <StyledHeaderRow>
+      <Icon icon='bi:arrow-left-circle-fill' onClick={prevMonth} />
       <div className='col col-start'>
         <span className='text'>
+          {format(currentMonth, 'yyyy-')}
           <span className='text month'>{format(currentMonth, 'M')}월</span>
-          {format(currentMonth, 'yyyy')}
         </span>
       </div>
-      <div className='col col-end'>
-        <Icon icon='bi:arrow-left-circle-fill' onClick={prevMonth} />
-        <Icon icon='bi:arrow-right-circle-fill' onClick={nextMonth} />
-      </div>
-    </div>
+      <Icon icon='bi:arrow-right-circle-fill' onClick={nextMonth} />
+    </StyledHeaderRow>
   );
 }
 
 export default RenderHeader;
+
+const StyledHeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: red;
+`;

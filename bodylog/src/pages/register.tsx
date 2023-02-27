@@ -31,15 +31,18 @@ function Register() {
     e.preventDefault();
     const register = async () => {
       const response = await axios
-        .post('/MockRegister', {
-          id: registerId,
-          password: registerPw,
+        .post('http://bodylog1.duckdns.org/join', {
+          userId: registerId,
+          userPassword: registerPw,
+          repeatedPassword: registerPwCheck,
         })
         .then((response) => {
           console.log(response.data);
+          alert('Your Accout Has Been Created!');
+          router.push('/index');
         })
         .catch((err) => {
-          console.log(err);
+          alert('Faild creating accout');
         });
     };
     if (registerId == '') {
@@ -55,15 +58,15 @@ function Register() {
 
   return (
     <StyledRegisterPage>
-      <StyledH1>BodyLog</StyledH1>
-      <SttledRgis>Register</SttledRgis>
+      <StyledH1>FLOG</StyledH1>
+      <SttledRgis>Create Accout</SttledRgis>
       <StyledRegisterBox onSubmit={onSubmit}>
         <StyledInputText>ID</StyledInputText>
-        <StyledInput value={registerId} onChange={handleRegisterId} placeholder='아이디를 입력하세요' />
+        <StyledInput value={registerId} onChange={handleRegisterId} placeholder='아이디를 입력하세요' minLength={6} maxLength={20} />
         <StyledInputText>PASSWORD</StyledInputText>
-        <StyledInput value={registerPw} onChange={handleRegisterPw} placeholder='비밀번호를 입력하세요' type='password' />
+        <StyledInput value={registerPw} onChange={handleRegisterPw} placeholder='비밀번호를 입력하세요' type='password' minLength={8} maxLength={20} />
         <StyledInputText>PASSWORD CHECK</StyledInputText>
-        <StyledInput value={registerPwCheck} onChange={handleRegisterPwCheck} placeholder='비밀번호를 다시 입력하세요' type='password' />
+        <StyledInput value={registerPwCheck} onChange={handleRegisterPwCheck} placeholder='비밀번호를 다시 입력하세요' type='password' minLength={8} maxLength={20} />
         <StyledErrBox>{errMessage}</StyledErrBox>
         <StyledButtonBox type='submit'>
           <StyledButtonText>Join Us</StyledButtonText>
@@ -79,13 +82,13 @@ const StyledH1 = styled.h1`
   margin-top: 2rem;
   font-weight: bold;
   font-size: 3rem;
-  color: #4e4e4e;
+  color: #272d2f;
 `;
 
 const SttledRgis = styled.div`
   margin-top: 4rem;
   font-size: 1.5rem;
-  color: #4e4e4e;
+  color: #272d2f;
 `;
 const StyledErrBox = styled.div`
   margin-top: 0.5rem;
@@ -106,7 +109,7 @@ const StyledInputText = styled.p`
   padding-left: 0.5rem;
   font-size: 0.7rem;
   margin-top: 2rem;
-  color: #4e4e4e;
+  color: #272d2f;
 `;
 
 const StyledInput = styled.input`
@@ -120,31 +123,35 @@ const StyledInput = styled.input`
   padding-left: 0.5rem;
   &:focus,
   :hover {
-    background-color: #a8e5cf;
+    background-color: #fce8af;
     transition: all 0.3s;
   }
 `;
 
 const StyledButtonText = styled.div`
   color: #efefef;
-  background-color: #3e7a60;
+  background-color: unset;
 `;
 const StyledButtonBox = styled.button`
   all: unset;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #3e7a60;
+  background-color: #fe7240;
   border-radius: 0.7rem;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   width: 20.5rem;
   height: 3rem;
   &:hover {
     cursor: pointer;
+    background-position: right center;
     ${StyledButtonText} {
       font-size: 1.2rem;
       font-weight: bold;
       transition: all 0.3s;
     }
+  }
+  &:active {
+    transform: scale(0.95);
   }
 `;

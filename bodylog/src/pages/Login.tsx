@@ -29,18 +29,22 @@ function Login() {
     e.preventDefault();
     const login = async () => {
       const response = await axios
-        .post('/MockApi/Login', {
+        .post('http://bodylog1.duckdns.org/login', {
           id: id,
           password: password,
         })
+
         .then((response) => {
           localStorage.setItem('logintoken', response.data.accessToken);
+          console.log('axios.post 성공 후');
+          console.log('logintoken: ' + localStorage.getItem('logintoken'));
         });
     };
     // 로그인 버튼을 누르면
     login()
       // 로그인 성공 시 mypage로 이동
       .then(() => {
+        console.log('mypage로 페이지 이동');
         router.push('/mypage');
       })
       // 서버에 없는 로그인 정보로 인해 에러가 발생하면 alert!
@@ -53,7 +57,7 @@ function Login() {
       <StyledContainer>
         <StyledContent>
           <StyledLoginBox>
-            <StyledTitle>BodyLog</StyledTitle>
+            <StyledTitle>FLOG</StyledTitle>
             <form onSubmit={onSubmit}>
               <StyledCover>
                 <StyledInputWrapper>
@@ -83,6 +87,7 @@ const StyledContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 5rem;
+  min-width: 100%;
 `;
 
 const StyledContent = styled.div`
@@ -102,7 +107,7 @@ const StyledTitle = styled.div`
   text-align: center;
   font-size: 2.5rem;
   font-weight: bold;
-  color: #059a05;
+  color: #272d2f;
 `;
 
 const StyledCover = styled.div`
@@ -123,13 +128,14 @@ const StyledInput = styled.input`
   border: 1px solid #4e4e4e;
   background-color: #efefef;
   border-radius: 0.7rem;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-  width: 15rem;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px;
+  min-width: 5rem;
+  max-width: 15rem;
   height: 2rem;
   padding-left: 0.5rem;
   &:focus,
   :hover {
-    background-color: #a8e5cf;
+    background-color: #fce8af;
     transition: all 0.3s;
   }
 `;
@@ -147,8 +153,8 @@ const StyledLoginBtn = styled.button`
   border: 0rem;
   font-weight: 700;
   font-size: 1rem;
-  box-shadow: 0rem 0rem 1rem 0.5rem #cdfcaa;
-  background-image: linear-gradient(45deg, #009c1d 0%, #05cd23 51%, #8dd701 100%);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px;
+  background-color: #fe7240;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
@@ -169,5 +175,5 @@ const StyledLoginBtn = styled.button`
 const StyledButton = styled.button`
   all: unset;
   text-align: right;
-  color: green;
+  color: 44ee4e;
 `;
