@@ -1,24 +1,26 @@
-import Modal from '@/components/Modal';
 import Image from 'next/image';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 function Home() {
+
+  const router = useRouter();
+
+  const onProlog = () => {
+    router.push({
+      pathname: '/Prolog1',
+    });
+  };
   return (
     <StyledIndexBox>
       <ImageBox>
-        <Image src={'/logoimg.png'} alt={'logoimg'} width={200} height={200} />
+        <Image src={'/Flogo.png'} alt={'logoimg'} width={170} height={170} />
         <br></br>
-        <Image src={'/logotext.png'} alt={'logo'} width={200} height={60} />
+        <StyledText>FLOG</StyledText>
       </ImageBox>
-      <LoginButton
-        onClick={() => {
-          router.push('/login');
-        }}
-      >
-        LOGIN
-      </LoginButton>
+
+      <StyledP onClick={onProlog}>Hi</StyledP>
     </StyledIndexBox>
   );
 }
@@ -30,7 +32,7 @@ const StyledIndexBox = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  //background-color: #ffc529;
+  background-color: #5cc189;
   min-height: 100%;
 `;
 
@@ -38,23 +40,21 @@ const ImageBox = styled.div`
   margin: 10rem 0 0 0;
   display: flex;
   flex-direction: column;
-  margin-bottom: 5rem;
+  margin-bottom: 9rem;
 `;
 
-const LoginButton = styled.button`
-  margin-top: 5rem;
-  font-size: 1.5rem;
-  all: unset;
-  border: 1px solid black;
-  border-radius: 1rem;
-  padding: 0.2rem;
-  font-weight: bold;
-  &:hover {
-    background-color: #fe724c;
-    transition: 0.3s;
-  }
-  &:active {
-    background-color: #fe724c;
-    transition: 0.1s;
-  }
+const StyledText = styled.p`
+  margin-left: 1.2rem;
+  color: white;
+  font-size: 3.3rem;
+  font-weight: 550;
+  letter-spacing: 0.2rem;
 `;
+
+const StyledP = styled.p`
+  cursor: pointer;
+  color: white;
+  margin-bottom: 2rem;
+  transition: width 2s, height 2s, background-color 2s, transform 2s;
+`;
+
