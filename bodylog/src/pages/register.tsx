@@ -31,17 +31,17 @@ function Register() {
     e.preventDefault();
     const register = async () => {
       const response = await axios
-        .post('http://bodylog1.duckdns.org/join', {
+        .post('/api/join', {
           userId: registerId,
           userPassword: registerPw,
           repeatedPassword: registerPwCheck,
         })
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
           alert('Your Accout Has Been Created!');
-          router.push('/index');
+          router.push('/');
         })
         .catch((err) => {
+          console.log('Faild creating accout');
           alert('Faild creating accout');
         });
     };
@@ -152,6 +152,6 @@ const StyledButtonBox = styled.button`
     }
   }
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.99);
   }
 `;

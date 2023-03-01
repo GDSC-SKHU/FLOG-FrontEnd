@@ -6,6 +6,18 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/join',
+        destination: `http://bodylog1.duckdns.org/join`,
+      },
+      {
+        source: '/api/login',
+        destination: `http://bodylog1.duckdns.org/login`,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

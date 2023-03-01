@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert';
 
-function Login() {
+function login() {
   const router = useRouter();
 
   // onSubmit과 기능 겹침
@@ -29,9 +29,9 @@ function Login() {
     e.preventDefault();
     const login = async () => {
       const response = await axios
-        .post('http://bodylog1.duckdns.org/login', {
-          id: id,
-          password: password,
+        .post('/api/login', {
+          userId: id,
+          userPassword: password,
         })
 
         .then((response) => {
@@ -80,7 +80,7 @@ function Login() {
   );
 }
 
-export default Login;
+export default login;
 
 const StyledContainer = styled.div`
   margin-top: 10rem;
@@ -145,7 +145,7 @@ const StyledLoginBtn = styled.button`
   padding: 2rem 2.5rem;
   text-align: center;
   text-transform: uppercase;
-  transition: 0.5s;
+  transition: 0.3s;
   background-size: 200% auto;
   color: white;
   border-radius: 0.5rem;
@@ -175,5 +175,5 @@ const StyledLoginBtn = styled.button`
 const StyledButton = styled.button`
   all: unset;
   text-align: right;
-  color: 44ee4e;
+  color: #44ee4e;
 `;
