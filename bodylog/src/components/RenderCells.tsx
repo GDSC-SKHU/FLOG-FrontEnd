@@ -30,6 +30,7 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
       const cloneDay = format(day, 'MM-dd-yyyy'); // Date 형식 지정
+      //!============================================================================================================
       // modal 창이 열려야 하는 로직
       const onClick = () => {
         console.log('선택된 날짜: ' + cloneDay);
@@ -44,14 +45,17 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
             .post('/api/meals', {
               type: 'HEALTH',
               quantity: 'LIGHT',
+              selectedDate: cloneDay,
             })
-            .then(() => {
-              console.log();
+            .then((response) => {
+              console.log(response.data);
+              console.log(cloneDay);
             });
         };
         dayPost();
         //setOnClickDate(cloneDay); //! 첫 클릭시 undefined 두번째 클릭 시 이전 클릭 날짜가 나옴
       };
+      //!============================================================================================================
       days.push(
         <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`} key={day} onClick={on}>
           <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
@@ -92,7 +96,8 @@ const StyledDay = styled.div`
   }
   // selected: today 오늘 날짜는 green으로 보임
   &.cell.selected {
-    color: green;
+    color: orangered;
+    font-weight: bold;
   }
   // cell: 달력에 보이는 모든 day들
   &.cell {

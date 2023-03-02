@@ -17,13 +17,15 @@ function Nav() {
 export default Nav;
 
 const StyledNav = styled.nav`
+  position: fixed;
+  width: 100vw;
+  height: 8vh;
   display: flex;
   background-color: #5cc189;
 `;
 
 const StyledLogo = styled.div`
-  margin-right: 0.2rem;
-  padding: 0.5rem;
+  margin: auto 0 auto 0.2rem;
 `;
 
 const StyledText = styled.div`

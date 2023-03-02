@@ -1,5 +1,7 @@
 import Calendar from '@/components/Calendar';
 import Modal from '@/components/Modal';
+import Nav from '@/components/Nav';
+import UnderNav from '@/components/UnderNav';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -27,6 +29,7 @@ function mypage() {
 
   return (
     <>
+      <Nav />
       <MyPageBox>
         <h1>Calendar</h1>
         <Calendar />
@@ -35,8 +38,27 @@ function mypage() {
         <StyledModalButton onClick={handleOpenModal}>Open Modal</StyledModalButton>
         <br />
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-          <h2>모달창 테스트 버튼</h2>
-          <p>Noto is a global font collection for writing in all modern and ancient languages. Noto Sans KR is an unmodulated (“sans serif”) design for the Korean language using Hangul and the Korean Hanja scripts. It also supports Hiragana, Katakana, Latin, Cyrillic and Greek. It has multiple weights.</p>
+          {/* ================children (contents)컨테이너================ */}
+          <ModalContainer className='type-modal'>
+            <h2>FLOG</h2>
+            <div>MEAL TYPE</div>
+            <ImageContainer>
+              <ImageBox>1</ImageBox>
+              <ImageBox>2</ImageBox>
+              <ImageBox>3</ImageBox>
+            </ImageContainer>
+
+            <div>MEAL AMOUNT</div>
+            <ImageContainer>
+              <ImageBox>1</ImageBox>
+              <ImageBox>2</ImageBox>
+              <ImageBox>3</ImageBox>
+            </ImageContainer>
+            <div>
+              <button>CANCLE</button>
+              <button>SAVE</button>
+            </div>
+          </ModalContainer>
         </Modal>
         <StyledMypageButton
           onClick={() => {
@@ -46,16 +68,40 @@ function mypage() {
           LINK TO MYPAGE
         </StyledMypageButton>
         <IsLoginBox>현재 로그인 여부: {isLogin}</IsLoginBox>
+        <UnderNav />
       </MyPageBox>
     </>
   );
 }
 
 export default mypage;
-const IsLoginBox = styled.div``;
-const MyPageBox = styled.div`
-  padding: 1rem;
+const ImageBox = styled.div`
+  background-image: src('/Flogo.png');
+  padding: 2rem;
+`;
+const ModalContainer = styled.div`
+  border: 1px blue solid;
+  width: 70vw;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+const ImageContainer = styled.div`
   border: 1px solid red;
+  width: 60vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+`;
+
+const IsLoginBox = styled.div`
+  border: orange 2px solid;
+`;
+const MyPageBox = styled.div`
+  padding-top: 8vh;
+  width: 100vw;
+  height: 100vh;
 `;
 const StyledModalButton = styled.button`
   all: unset;

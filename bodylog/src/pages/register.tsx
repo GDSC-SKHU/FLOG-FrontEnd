@@ -36,13 +36,14 @@ function Register() {
           userPassword: registerPw,
           repeatedPassword: registerPwCheck,
         })
-        .then(() => {
+        .then((response) => {
+          console.log(response.data); // Join success
           alert('Your Accout Has Been Created!');
-          router.push('/');
+          router.push('/Login');
         })
         .catch((err) => {
-          console.log('Faild creating accout');
-          alert('Faild creating accout');
+          console.log('Faild creating accout(이미 해당 아이디로 계정 존재함)');
+          alert('Faild creating accout(이미 해당 아이디로 계정 존재함)');
         });
     };
     if (registerId == '') {

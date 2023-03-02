@@ -10,15 +10,15 @@ const nextConfig = {
     return [
       {
         source: '/api/join',
-        destination: `http://bodylog1.duckdns.org/join`,
+        destination: `https://bodylog1.duckdns.org/join`,
       },
       {
         source: '/api/login',
-        destination: `http://bodylog1.duckdns.org/login`,
+        destination: `https://bodylog1.duckdns.org/login`,
       },
       {
         source: '/api/meals',
-        destination: `http://bodylog1.duckdns.org/meals`,
+        destination: `https://bodylog1.duckdns.org/meals`,
       },
     ];
   },

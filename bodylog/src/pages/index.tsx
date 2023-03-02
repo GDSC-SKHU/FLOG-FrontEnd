@@ -1,9 +1,15 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 function Index() {
+  // 로그인 되어있을 때 자동으로 mypage로 이동
+  // useEffect(() => {
+  //   if (localStorage.getItem('logintoken') != null) {
+  //     router.push('/mypage');
+  //   }
+  // }, []);
   const router = useRouter();
 
   const onProlog = () => {
@@ -32,7 +38,7 @@ const StyledIndexBox = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: #5cc189;
-  min-height: 100%;
+  height: 100vh;
 `;
 
 const ImageBox = styled.div`

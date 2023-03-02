@@ -24,9 +24,10 @@ function UnderNav() {
   };
 
   const onLog = () => {
-    router.push({
-      pathname: '/Home',
-    });
+    if (localStorage.getItem('logintoken') != null) {
+      localStorage.removeItem('logintoken');
+      router.push('/');
+    }
   };
 
   return (
@@ -67,8 +68,11 @@ function UnderNav() {
 export default UnderNav;
 
 const StyledNav = styled.nav`
+  width: 100vw;
   display: flex;
   background-color: #3e7a60;
+  position: fixed;
+  bottom: 0;
 `;
 
 const StyledIcon = styled.div`

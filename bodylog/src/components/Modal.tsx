@@ -21,9 +21,10 @@ const Modal = ({ isOpen, onClose, children }: React.PropsWithChildren<ModalProps
 
   return isOpen ? (
     <ModalContainer isAnimating={isAnimating} onAnimationEnd={handleAnimationEnd}>
-      <Overlay /*onClick={onClose}*/></Overlay>
-      <Content>{children}</Content>
-      <ModalButton onClick={onClose}>X</ModalButton>
+      <Overlay /*onClick={onClose}*/>
+        <ModalButton onClick={onClose}>X</ModalButton>
+        <Content>{children}</Content>
+      </Overlay>
     </ModalContainer>
   ) : null;
 };
@@ -59,7 +60,6 @@ const ModalContainer = styled.div<ModalContainerProps>`
   right: 0;
   top: 0;
   display: flex;
-  align-items: flex-end;
   justify-content: center;
   z-index: 1000;
   overflow: hidden;
@@ -67,32 +67,47 @@ const ModalContainer = styled.div<ModalContainerProps>`
   animation-fill-mode: forwards;
   animation-timing-function: ease-in-out;
   animation-name: ${({ isAnimating }) => (isAnimating ? slideIn : slideOut)};
-
-  background-color: rgba(133, 55, 55, 0.3);
-  backdrop-filter: blur(1rem);
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(0.4rem);
 `;
 
 const Overlay = styled.div`
+  margin: auto;
+  width: 70vw;
+  height: 50vh;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: orange;
 `;
 
 const Content = styled.div`
-  background-color: white;
-  width: 100%;
-  max-width: 600px;
-  border-radius: 4px 4px 0 0;
+  margin: auto;
+  width: 70vw;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #5cc189;
+  max-width: 35rem;
+  border-radius: 2rem;
   padding: 16px;
 `;
 
 const ModalButton = styled.button`
+  all: unset;
+  margin: 0.1rem;
+  background-color: #ffffff;
+  border-radius: 50%;
   font-weight: bold;
   position: absolute;
-  right: 0;
-  top: 0;
-  padding: 1rem;
+  right: 1rem;
+  top: 1rem;
+  padding: 0.5rem;
+  &:hover {
+    color: red;
+  }
 `;
