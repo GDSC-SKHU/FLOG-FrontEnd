@@ -7,13 +7,6 @@ import swal from 'sweetalert';
 function login() {
   const router = useRouter();
 
-  // onSubmit과 기능 겹침
-  // const onMain = () => {
-  //   router.push({
-  //     pathname: '/mypage',
-  //   });
-  // };
-
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -54,26 +47,27 @@ function login() {
   return (
     <>
       <StyledContainer>
-        <StyledContent>
-          <StyledLoginBox>
+        <StyledLoginBox>
+          <TitleBox>
+            <LoginImg src='/Flogo-green.png'></LoginImg>
             <StyledTitle>FLOG</StyledTitle>
-            <form onSubmit={onSubmit}>
-              <StyledCover>
-                <StyledInputWrapper>
-                  <StyledInput type='text' placeholder='아이디' onChange={onChangeId} minLength={6} maxLength={20} required />
-                  <StyledInput type='password' placeholder='비밀번호' onChange={onChangePw} minLength={8} required />
-                </StyledInputWrapper>
-                {/* 메인페이지 이동*/}
-                <StyledLoginBtn type='submit'>Login</StyledLoginBtn>
-              </StyledCover>
-            </form>
-          </StyledLoginBox>
+          </TitleBox>
+          <StyledForm onSubmit={onSubmit}>
+            <StyledCover>
+              <StyledInputWrapper>
+                <StyledInput type='text' placeholder='아이디' onChange={onChangeId} minLength={6} maxLength={20} required />
+                <StyledInput type='password' placeholder='비밀번호' onChange={onChangePw} minLength={8} required />
+              </StyledInputWrapper>
+              {/* 메인페이지 이동*/}
+              <StyledLoginBtn type='submit'>Login</StyledLoginBtn>
+            </StyledCover>
+          </StyledForm>
+        </StyledLoginBox>
 
-          {/* 회원가입 페이지 이동 */}
-          <StyledButton onClick={() => router.push('./Join')}>
-            <p>회원가입</p>
-          </StyledButton>
-        </StyledContent>
+        {/* 회원가입 페이지 이동 */}
+        <StyledButton onClick={() => router.push('./Join')}>
+          <p>Create Account</p>
+        </StyledButton>
       </StyledContainer>
     </>
   );
@@ -82,54 +76,69 @@ function login() {
 export default login;
 
 const StyledContainer = styled.div`
-  margin-top: 10rem;
-  display: flex;
-  justify-content: center;
-  gap: 5rem;
-  min-width: 100%;
-`;
-
-const StyledContent = styled.div`
-  padding: 2rem;
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  border-radius: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
 `;
-
 const StyledLoginBox = styled.div`
+  width: 100%;
+  max-width: 30rem;
   padding: 1rem;
 `;
-
-const StyledTitle = styled.div`
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #272d2f;
+const TitleBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  pointer-events: none;
 `;
+const LoginImg = styled.img`
+  width: 3rem;
+`;
+const StyledTitle = styled.div`
+  padding-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #5cc189;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+`;
+const StyledForm = styled.form`
+  width: 100%;
 
+  display: flex;
+  justify-content: center;
+`;
 const StyledCover = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `;
 
 const StyledInputWrapper = styled.div`
-  padding: 1rem;
+  width: 70%;
+  padding-right: 1rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
 `;
 
 const StyledInput = styled.input`
-  padding: 0.7rem;
   all: unset;
-  border: 1px solid #4e4e4e;
+  width: 100%;
   background-color: #efefef;
   border-radius: 0.7rem;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px;
-  min-width: 5rem;
-  max-width: 15rem;
   height: 2rem;
   padding-left: 0.5rem;
   &:focus,
@@ -140,32 +149,18 @@ const StyledInput = styled.input`
 `;
 
 const StyledLoginBtn = styled.button`
-  margin: 1rem 0.5rem;
-  padding: 2rem 2.5rem;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.3s;
-  background-size: 200% auto;
-  color: white;
-  border-radius: 0.5rem;
-  display: block;
+  width: 30%;
   border: 0rem;
+  height: 5.4rem;
+  transition: 0.3s;
+  color: white;
+  border-radius: 1rem;
+  display: block;
   font-weight: 700;
   font-size: 1rem;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px;
-  background-color: #fe7240;
+  background-color: #14af9d;
   cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-
-  &:hover {
-    background-position: right center;
-    /* change the direction of the change here */
-    color: #fff;
-    text-decoration: none;
-  }
-
   &:active {
     transform: scale(0.95);
   }
@@ -174,5 +169,9 @@ const StyledLoginBtn = styled.button`
 const StyledButton = styled.button`
   all: unset;
   text-align: right;
-  color: #44ee4e;
+  color: #4e4e4e;
+  font-size: 0.7rem;
+  &:hover {
+    cursor: pointer;
+  }
 `;
