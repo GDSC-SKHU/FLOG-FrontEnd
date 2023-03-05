@@ -18,8 +18,8 @@ export default Nav;
 
 const StyledNav = styled.nav`
   position: fixed;
-  width: 100vw;
-  height: 8vh;
+  width: 100%;
+  height: 8%;
   display: flex;
   background-color: #5cc189;
 `;

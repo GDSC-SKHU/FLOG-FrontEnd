@@ -44,8 +44,7 @@ function login() {
     login()
       // 로그인 성공 시 mypage로 이동
       .then(() => {
-        console.log('mypage로 페이지 이동');
-        router.push('/mypage');
+        router.push('/Home');
       })
       // 서버에 없는 로그인 정보로 인해 에러가 발생하면 alert!
       .catch(() => {

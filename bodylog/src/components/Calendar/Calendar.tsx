@@ -23,7 +23,7 @@ function Calender() {
     <StyledCalendar>
       <RenderHeader currentMonth={currentMonth} prevMonth={prevMonth} nextMonth={nextMonth} />
       <RenderDays />
-      <RenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
+      <CalRenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
     </StyledCalendar>
   );
 }
@@ -31,10 +31,16 @@ function Calender() {
 export default Calender;
 
 const StyledCalendar = styled.div`
+  width: 95%;
+  max-width: 45rem;
+  margin: 0 auto; // 위아래, 양옆
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  margin: 1rem;
-  border: 1px gray solid;
-  height: 25rem;
+  align-items: center;
+  border-radius: 1rem;
+  background-color: #fefefe;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  min-height: 25rem;
 `;
+const CalRenderCells = styled(RenderCells)``;
