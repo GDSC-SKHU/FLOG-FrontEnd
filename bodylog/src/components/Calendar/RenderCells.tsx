@@ -76,6 +76,7 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
           title: <strong>FLOG</strong>,
           html: (
             <ModalContainerIn>
+              <p>{cloneDay}</p>
               <h4>MEAL TYPE</h4>
               <ImageContainer>
                 <StyledTile onClick={onClickTypeHealth}>
@@ -158,14 +159,16 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
         });
       };
       days.push(
-        <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`} key={day}>
+        <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`}>
+          {/** key={key}가 원래 있었지만 배포 중 오류나서 지워 봄 */}
           <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
           <StyledImg className={`Img ${!isSameMonth(day, monthStart) ? 'none' : ''}`} src={'/CalendarPic/default.png'} alt={'test'} width={30} height={30} onClick={onClick} />
         </StyledDay>
       );
       day = addDays(day, 1);
     }
-    rows.push(<StyledRow key={day}>{days}</StyledRow>);
+    rows.push(<StyledRow>{days}</StyledRow>);
+    // 위에서도 key={key}를 생략함
     days = [];
   }
   return <StyledBody>{rows}</StyledBody>;
