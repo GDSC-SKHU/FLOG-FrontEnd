@@ -6,7 +6,7 @@ function Nav() {
     <>
       <StyledNav>
         <StyledLogo>
-          <Image src={'/Flogo.png'} alt={'logoimg'} width={50} height={50} />
+          <Image src={'/Flogo-white.png'} alt={'logoimg'} width={50} height={50} />
         </StyledLogo>
         <StyledText>FLOG</StyledText>
       </StyledNav>

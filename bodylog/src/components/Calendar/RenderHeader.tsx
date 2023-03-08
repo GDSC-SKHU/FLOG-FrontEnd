@@ -1,5 +1,4 @@
 import { format } from 'date-fns';
-import { Icon } from '@iconify/react';
 import styled from 'styled-components';
 
 interface HProps {

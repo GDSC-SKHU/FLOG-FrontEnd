@@ -6,12 +6,19 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import withReactContent from 'sweetalert2-react-content';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 interface CProps {
   currentMonth: any;
   selectedDate: any;
   onDateClick: any;
 }
+type ObjectEx = {
+  mealId: Number;
+  type: String;
+  quantity: String;
+  seletedDate: String;
+};
 //format(date, "yy-MM-dd");
 function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
   const monthStart = startOfMonth(currentMonth);
@@ -19,7 +26,10 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
   const [selectedType, setSelectedType] = useState<String>(''); //  INSTANT, BALANCE, HEALTH
-  const [selectedAmount, setSelectedAmount] = useState(''); // OVEREATING, FITNESS, LIGHT
+  const [selectedAmount, setSelectedAmount] = useState<String>(''); // OVEREATING, FITNESS, LIGHT
+  const [jsonResult, setJsonResult] = useState<Array<ObjectEx>>([]); // get 요청으로 받은 데이터 저장
+  const [dayObject, setDayObject] = useState<ObjectEx>();
+  const [toggleValue, setToggleValue] = useState<Boolean>(true); // true: type | false: amount
   let typeValue = '';
   let amountValue = '';
   const rows = [];
@@ -30,28 +40,32 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
   const MySwal = withReactContent(Swal);
   useEffect(() => {
     //! axios,get 저장할 때 마다 get 요청 보내기
-    //axios.get();
+    // axios
+    //   .get('/api/member/meal', {
+    //     headers: {
+    //       Authorization: `Bearer ` + localStorage.getItem('logintoken'),
+    //     },
+    //   })
+    //   .then((response) => {
+    //     setJsonResult(response.data);
+    //   });
+    console.log('In useEffect');
+    console.log(selectedType);
+    console.log(selectedAmount);
   }, [selectedType, selectedAmount]);
 
   const onClickTypeHealth = () => {
-    // setSelectedType('HEALTH'); => 생각하는 대로 동작하지 않음
-    // console.log(selectedType);
     typeValue = 'HEALTH';
     console.log(`typeValue: ${typeValue}`);
   };
   const onClickTypeBalance = () => {
-    // setSelectedType('BALANCE');
-    // console.log(selectedType);
     typeValue = 'BALANCE';
     console.log(`typeValue: ${typeValue}`);
   };
   const onClickTypeInstance = () => {
-    // setSelectedType('INSTANT');
-    // console.log(selectedType);
     typeValue = 'INSTANT';
     console.log(`typeValue: ${typeValue}`);
   };
-
   const onClickAmountLight = () => {
     amountValue = 'LIGHT';
     console.log(`amountValue: ${amountValue}`);
@@ -71,7 +85,6 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
       // modal 창이 열려야 하는 로직
       const onClick = () => {
         console.log('선택된 날짜: ' + cloneDay);
-
         MySwal.fire({
           title: <strong>FLOG</strong>,
           html: (
@@ -98,7 +111,6 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
                   </StyledLabel>
                 </StyledTile>
               </ImageContainer>
-
               <h4>MEAL AMOUNT</h4>
               <ImageContainer>
                 <StyledTile onClick={onClickAmountLight}>
@@ -130,17 +142,21 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
         }).then((result) => {
           setSelectedType(typeValue);
           setSelectedAmount(amountValue);
-          console.log(`최종 선택 타입: ${typeValue}`);
-          console.log(`최종 선택 식사량: ${amountValue}`);
+          console.log(`최종 선택 타입(let): ${typeValue}`);
+          console.log(`최종 선택 식사량(let): ${amountValue}`);
           if (result.isConfirmed) {
             // axios.post
             const dayPost = async () => {
               const response = await axios
-                .post('/api/meals', {
-                  type: typeValue,
-                  quantity: amountValue,
-                  selectedDate: cloneDay,
-                })
+                .post(
+                  '/api/meals',
+                  { type: typeValue, quantity: amountValue, selectedDate: cloneDay }, // JSON.stringify(newfine)도 사용해보기
+                  {
+                    headers: {
+                      Authorization: `Bearer ` + localStorage.getItem('logintoken'),
+                    },
+                  }
+                )
                 .then((response) => {
                   console.log(response.data);
                   console.log(cloneDay);
@@ -150,6 +166,8 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
                 });
             };
             dayPost();
+            console.log(`최종 선택 타입(useState): ${selectedType}`); // 원하는대로 안됨ㅋ
+            console.log(`최종 선택 식사량(useState): ${selectedAmount}`); // 원하는대로 안됨ㅋ
             Swal.fire({
               icon: 'success',
               title: 'saved!',
@@ -158,11 +176,20 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
           }
         });
       };
+      //!========================================================================================================================
+      // cell 마다 값 분배
+      // const dayValues = () => {
+      //   //-jsonResult는 객체 배열
+      //   setDayObject(jsonResult.filter((item) => item.seletedDate == cloneDay)[0]); // json 데이터에서 해당 날짜가 포함된 객채만 걸러냄 - 해당 날짜의 객체가 없을 때에는 undefined 출력
+      // };
+      // dayValues();
+      //!========================================================================================================================
       days.push(
         <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`}>
           {/** key={key}가 원래 있었지만 배포 중 오류나서 지워 봄 */}
           <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
           <StyledImg className={`Img ${!isSameMonth(day, monthStart) ? 'none' : ''}`} src={'/CalendarPic/default.png'} alt={'test'} width={30} height={30} onClick={onClick} />
+          {/* <p className={`${dayObject.type == 'HEALTH'}`}></p> */}
         </StyledDay>
       );
       day = addDays(day, 1);
@@ -185,6 +212,7 @@ const StyledImg = styled.img`
   &.none {
     opacity: 0;
     pointer-events: none;
+    background-color: red;
   }
 `;
 
