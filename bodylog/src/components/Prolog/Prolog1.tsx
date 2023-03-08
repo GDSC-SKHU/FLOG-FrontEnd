@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import Nav from '@/components/Nav';
+import Nav from '@/components/Nav/Nav';
 
 function Prolog1() {
   const router = useRouter();
@@ -11,9 +11,9 @@ function Prolog1() {
       pathname: '/Prolog2',
     });
   };
+
   return (
     <>
-      <Nav />
       <section>
         <article>
           <StyledImg>

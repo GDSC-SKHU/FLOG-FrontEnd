@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import Image from 'next/image';
-import Nav from '@/components/Nav';
+import Nav from '@/components/Nav/Nav';
 import Link from 'next/link';
-import UnderNav from '@/components/UnderNav';
+import UnderNav from '@/components/Nav/UnderNav';
 
 function Home() {
   return (

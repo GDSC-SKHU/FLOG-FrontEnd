@@ -1,7 +1,7 @@
-import Calendar from '@/components/Calendar';
-import Modal from '@/components/Modal';
-import Nav from '@/components/Nav';
-import UnderNav from '@/components/UnderNav';
+import Calendar from '@/components/Calendar/Calendar';
+import Modal from '@/components/Calendar/Modal';
+import Nav from '@/components/Nav/Nav';
+import UnderNav from '@/components/Nav/UnderNav';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';

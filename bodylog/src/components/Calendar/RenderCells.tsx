@@ -57,14 +57,14 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
       };
       //!============================================================================================================
       days.push(
-        <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`} key={day} onClick={on}>
+        <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`} onClick={on}>
           <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
           <StyledImg src={'/logoimg.png'} alt={'test'} width={30} height={30} onClick={onClick} />
         </StyledDay>
       );
       day = addDays(day, 1);
     }
-    rows.push(<StyledRow key={day}>{days}</StyledRow>);
+    rows.push(<StyledRow>{days}</StyledRow>);
     days = [];
   }
   return <StyledBody>{rows}</StyledBody>;

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import { addMonths, subMonths } from 'date-fns';
 import styled from 'styled-components';
-import RenderHeader from '@/components/RenderHeader';
-import RenderDays from '@/components/RenderDays';
-import RenderCells from '@/components/RenderCells';
+import RenderHeader from '@/components/Calendar/RenderHeader';
+import RenderDays from '@/components/Calendar/RenderDays';
+import RenderCells from '@/components/Calendar/RenderCells';
 
 function Calender() {
   const [currentMonth, setCurrentMonth] = useState(new Date());

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 function UnderNav() {
   const router = useRouter();
 
+  // 추후 변경 가능성 O
   const onHome = () => {
     router.push({
       pathname: '/Home',
@@ -35,7 +36,7 @@ function UnderNav() {
       <StyledNav>
         <StyledIcon>
           <StyledImgBox>
-            <Image src={'/home.png'} alt={'Home'} width={35} height={35} onClick={onHome} />
+            <Image src={'/home.png'} alt={'Home'} width={35} height={35} onClick={onMylog} />
           </StyledImgBox>
           <StyledText>HOME</StyledText>
         </StyledIcon>
@@ -68,10 +69,13 @@ function UnderNav() {
 export default UnderNav;
 
 const StyledNav = styled.nav`
-  width: 100vw;
+  width: 100%;
+  max-width: 45rem;
+  height: 10%;
   display: flex;
-  background-color: #3e7a60;
   position: fixed;
+  justify-content: space-evenly;
+  background-color: #3e7a60;
   bottom: 0;
 `;
 

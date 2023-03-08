@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 function RenderDays() {
   const days = [];
@@ -46,3 +46,4 @@ const StyledCol = styled.div`
     color: blue;
   }
 `;
+

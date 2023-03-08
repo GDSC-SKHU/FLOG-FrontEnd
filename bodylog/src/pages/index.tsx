@@ -14,7 +14,7 @@ function Index() {
 
   const onProlog = () => {
     router.push({
-      pathname: '/Prolog1',
+      pathname: '/Prolog',
     });
   };
   return (
@@ -25,7 +25,7 @@ function Index() {
         <StyledText>FLOG</StyledText>
       </ImageBox>
 
-      <StyledP onClick={onProlog}>Hi</StyledP>
+      <StyledBtn onClick={onProlog}>Welcome&nbsp;:)</StyledBtn>
     </StyledIndexBox>
   );
 }
@@ -39,26 +39,37 @@ const StyledIndexBox = styled.div`
   flex-direction: column;
   background-color: #5cc189;
   height: 100vh;
+  width: 100vw;
 `;
 
 const ImageBox = styled.div`
-  margin: 10rem 0 0 0;
+  margin: 160px 0 0 0;
   display: flex;
   flex-direction: column;
-  margin-bottom: 9rem;
+  margin-bottom: 144px;
 `;
 
 const StyledText = styled.p`
-  margin-left: 1.2rem;
+  margin-left: 19.2px;
   color: white;
-  font-size: 3.3rem;
+  font-size: 52.8px;
   font-weight: 550;
-  letter-spacing: 0.2rem;
+  letter-spacing: 3.2px;
 `;
 
-const StyledP = styled.p`
+const StyledBtn = styled.button`
+  padding: 3.2px;
   cursor: pointer;
-  color: white;
+  color: #d5d5d5;
+  background-color: #5cc189;
+  border: 2px solid #d5d5d5;
   margin-bottom: 2rem;
-  transition: width 2s, height 2s, background-color 2s, transform 2s;
+  border-radius: 5%;
+  transition: all 0.5s ease;
+
+  &:hover {
+    color: white;
+    border-color: white;
+    transform: translateY(-0.125rem);
+  }
 `;
