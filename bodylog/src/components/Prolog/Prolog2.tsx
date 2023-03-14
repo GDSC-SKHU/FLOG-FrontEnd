@@ -1,70 +1,113 @@
 import styled from 'styled-components';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import Nav from '@/components/Nav/Nav';
 
 function Prolog2() {
-  const router = useRouter();
-
-  const onProlog1 = () => {
-    router.push({
-      pathname: '/Prolog1',
-    });
-  };
-
-  const onProlog3 = () => {
-    router.push({
-      pathname: '/Prolog3',
-    });
-  };
-
   return (
     <>
-      <section>
-        <article>
-          <StyledImg>
-            <Image src={'/eating habits.webp'} alt={'eating'} width={400} height={300} />
-          </StyledImg>
-          <StyledP>Good Meal</StyledP>
-        </article>
-        <StyledArrow>
-          <StyledBack>
-            <Image src={'/back.png'} alt={'arrow'} width={50} height={50} onClick={onProlog1} />
-          </StyledBack>
-          <StyledNext>
-            <Image src={'/next.png'} alt={'arrow'} width={50} height={50} onClick={onProlog3} />
-          </StyledNext>
-        </StyledArrow>
-      </section>
+      <StyledContainer>
+        <StyledContent>
+          <StyledCardWrapper>
+            <StyledCard>
+              <StyledImgContent>
+                <StyledOverlay></StyledOverlay>
+                <StyledCardImg>
+                  <Image src={'/eating habits.webp'} alt={'eating'} width={250} height={180} style={{ borderRadius: 20 }} />
+                </StyledCardImg>
+              </StyledImgContent>
+              <StyledCardContent>
+                <StyledH2>Good Meal</StyledH2>
+                <StyledP>Healthy food recipe!</StyledP>
+              </StyledCardContent>
+            </StyledCard>
+          </StyledCardWrapper>
+        </StyledContent>
+      </StyledContainer>
     </>
   );
 }
 
 export default Prolog2;
 
-const StyledImg = styled.div`
-  margin: 2rem 0;
-  border-top: 0.5rem solid white;
-  border-bottom: 0.3rem solid white;
-  box-shadow: rgba(0, 0, 0, 0.24) 0rem 0.2rem 0.5rem;
+const StyledContainer = styled.div`
+  padding-top: 2rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledContent = styled.div`
+  margin: 0 2.5rem;
+`;
+
+const StyledCardWrapper = styled.div``;
+
+const StyledCard = styled.div`
+  width: 20rem;
+  border-radius: 1.5rem;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+`;
+
+const StyledImgContent = styled.div`
+  display: flex;
+  position: relative;
+  padding: 2.5rem;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.2rem;
+`;
+
+const StyledCardContent = styled.div`
+  display: flex;
+  padding: 1rem;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StyledH2 = styled.h2`
+  padding-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 550;
+  color: #333;
 `;
 
 const StyledP = styled.p`
-  font-size: 1.5rem;
-  font-weight: 550;
+  padding-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #707070;
   text-align: center;
 `;
 
-const StyledArrow = styled.div`
-  display: flex;
+const StyledOverlay = styled.span`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.5rem 1.5rem 0 1.5rem;
+  background-color: #5cc189;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -2.5rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    background-color: #5cc189;
+  }
+
+  &::after {
+    border-radius: 0 2.5rem 0 0;
+    background-color: #fff;
+  }
 `;
 
-const StyledBack = styled.div`
-  margin-left: 33%;
-  margin-top: 8%;
-`;
-
-const StyledNext = styled.div`
-  margin-left: 8%;
-  margin-top: 8%;
+const StyledCardImg = styled.div`
+  position: relative;
+  border-radius: 10%;
+  background: #fff;
+  padding: 0.5rem;
 `;
