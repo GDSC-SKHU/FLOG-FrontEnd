@@ -1,12 +1,13 @@
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
 import { isSameMonth, isSameDay, addDays, parse } from 'date-fns';
 import { format } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import withReactContent from 'sweetalert2-react-content';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
+import { idState, jsonState, toogleState } from 'src/store/store';
 
 interface CProps {
   currentMonth: any;
@@ -17,10 +18,13 @@ type ObjectEx = {
   mealId: Number;
   type: String;
   quantity: String;
-  seletedDate: String;
+  selectedDate: String;
+  userId: string;
 };
+
 //format(date, "yy-MM-dd");
 function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
+  axios.defaults.withCredentials = true; //!===============================================================================================
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
@@ -28,30 +32,34 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
   const [selectedType, setSelectedType] = useState<String>(''); //  INSTANT, BALANCE, HEALTH
   const [selectedAmount, setSelectedAmount] = useState<String>(''); // OVEREATING, FITNESS, LIGHT
   const [jsonResult, setJsonResult] = useState<Array<ObjectEx>>([]); // get 요청으로 받은 데이터 저장
-  const [dayObject, setDayObject] = useState<ObjectEx>();
-  const [toggleValue, setToggleValue] = useState<Boolean>(true); // true: type | false: amount
   let typeValue = '';
   let amountValue = '';
-  const rows = [];
-  let days = [];
   let day = startDate;
   let formattedDate = '';
-
+  const globalId = useRecoilValue(idState);
+  const toggleState = useRecoilValue(toogleState);
+  const globalJson = useRecoilValue(jsonState);
   const MySwal = withReactContent(Swal);
+
   useEffect(() => {
     //! axios,get 저장할 때 마다 get 요청 보내기
-    // axios
-    //   .get('/api/member/meal', {
-    //     headers: {
-    //       Authorization: `Bearer ` + localStorage.getItem('logintoken'),
-    //     },
-    //   })
-    //   .then((response) => {
-    //     setJsonResult(response.data);
-    //   });
-    console.log('In useEffect');
-    console.log(selectedType);
-    console.log(selectedAmount);
+    const getJson = async () => {
+      const url = `/api/${globalId}`;
+      const response = await axios
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ` + localStorage.getItem('logintoken'),
+          },
+        })
+        .then((response) => {
+          console.log(response.data); // 이게 맞음
+          setJsonResult(response.data);
+        });
+      console.log('In useEffect');
+      console.log(selectedType);
+      console.log(selectedAmount);
+    };
+    getJson();
   }, [selectedType, selectedAmount]);
 
   const onClickTypeHealth = () => {
@@ -78,10 +86,13 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
     amountValue = 'OVEREATING';
     console.log(`amountValue: ${amountValue}`);
   };
+  let days = [];
+  const rows = [];
+
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
-      const cloneDay = format(day, 'MM-dd-yyyy'); // Date 형식 지정
+      const cloneDay = format(day, 'MM-dd-yyyy'); // Date 형식 지정  //! props로 넘길 수도 있음
       // modal 창이 열려야 하는 로직
       const onClick = () => {
         console.log('선택된 날짜: ' + cloneDay);
@@ -89,7 +100,7 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
           title: <strong>FLOG</strong>,
           html: (
             <ModalContainerIn>
-              <p>{cloneDay}</p>
+              <h6>{cloneDay}</h6>
               <h4>MEAL TYPE</h4>
               <ImageContainer>
                 <StyledTile onClick={onClickTypeHealth}>
@@ -146,58 +157,150 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
           console.log(`최종 선택 식사량(let): ${amountValue}`);
           if (result.isConfirmed) {
             // axios.post
-            const dayPost = async () => {
-              const response = await axios
-                .post(
-                  '/api/meals',
-                  { type: typeValue, quantity: amountValue, selectedDate: cloneDay }, // JSON.stringify(newfine)도 사용해보기
-                  {
-                    headers: {
-                      Authorization: `Bearer ` + localStorage.getItem('logintoken'),
-                    },
-                  }
-                )
-                .then((response) => {
-                  console.log(response.data);
-                  console.log(cloneDay);
-                })
-                .catch((e) => {
-                  alert(e);
-                });
-            };
-            dayPost();
-            console.log(`최종 선택 타입(useState): ${selectedType}`); // 원하는대로 안됨ㅋ
-            console.log(`최종 선택 식사량(useState): ${selectedAmount}`); // 원하는대로 안됨ㅋ
-            Swal.fire({
-              icon: 'success',
-              title: 'saved!',
-              confirmButtonColor: '#5cc189',
-            });
+            if (globalJson.filter((item) => item.selectedDate == cloneDay)[0] != undefined) {
+              const dayMealId = globalJson.filter((item) => item.selectedDate == cloneDay)[0].mealId;
+              console.log(dayMealId);
+              console.log('axios.post');
+              const dayPatch = async () => {
+                const url = `/api/${globalId}/${dayMealId}/update`;
+                console.log(url);
+                const response = await axios
+                  .patch(
+                    url,
+                    { type: typeValue, quantity: amountValue, selectedDate: cloneDay }, // JSON.stringify(newfine)도 사용해보기
+                    {
+                      headers: {
+                        Authorization: `Bearer ` + localStorage.getItem('logintoken'),
+                      },
+                      withCredentials: true,
+                    }
+                  )
+                  .then((response) => {
+                    alert(response.data);
+                  })
+                  .catch((e) => {
+                    alert(e);
+                  });
+              };
+              dayPatch();
+              console.log(`최종 선택 타입(useState): ${selectedType}`); // 원하는대로 안됨ㅋ
+              console.log(`최종 선택 식사량(useState): ${selectedAmount}`); // 원하는대로 안됨ㅋ
+              Swal.fire({
+                icon: 'success',
+                title: 'change saved!!',
+                confirmButtonColor: '#5cc189',
+              }).then(() => {
+                //window.location.pathname = '/Mycalendar';
+              });
+            } else {
+              const dayPost = async () => {
+                const url = `/api/${globalId}/add`;
+                const response = await axios
+                  .post(
+                    url,
+                    { type: typeValue, quantity: amountValue, selectedDate: cloneDay }, // JSON.stringify(newfine)도 사용해보기
+                    {
+                      headers: {
+                        Authorization: `Bearer ` + localStorage.getItem('logintoken'),
+                      },
+                    }
+                  )
+                  .then((response) => {
+                    console.log(response.data);
+                    console.log(cloneDay);
+                  })
+                  .catch((e) => {
+                    console.log('에러');
+                    alert(`${e}, axios 에러가 발견되었습니다`);
+                  });
+              };
+              dayPost();
+              console.log(`최종 선택 타입(useState): ${selectedType}`); // 원하는대로 안됨ㅋ
+              console.log(`최종 선택 식사량(useState): ${selectedAmount}`); // 원하는대로 안됨ㅋ
+              Swal.fire({
+                icon: 'success',
+                title: 'saved!',
+                confirmButtonColor: '#5cc189',
+              }).then(() => {
+                //window.location.pathname = '/Mycalendar';
+              });
+            }
           }
         });
       };
-      //!========================================================================================================================
-      // cell 마다 값 분배
-      // const dayValues = () => {
-      //   //-jsonResult는 객체 배열
-      //   setDayObject(jsonResult.filter((item) => item.seletedDate == cloneDay)[0]); // json 데이터에서 해당 날짜가 포함된 객채만 걸러냄 - 해당 날짜의 객체가 없을 때에는 undefined 출력
-      // };
-      // dayValues();
-      //!========================================================================================================================
-      days.push(
-        <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`}>
-          {/** key={key}가 원래 있었지만 배포 중 오류나서 지워 봄 */}
-          <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
-          <StyledImg className={`Img ${!isSameMonth(day, monthStart) ? 'none' : ''}`} src={'/CalendarPic/default.png'} alt={'test'} width={30} height={30} onClick={onClick} />
-          {/* <p className={`${dayObject.type == 'HEALTH'}`}></p> */}
-        </StyledDay>
-      );
+      //cell 마다 값 분배
+      const cellObject: ObjectEx = globalJson.filter((item) => item.selectedDate == cloneDay)[0];
+      if (cellObject != undefined) {
+        // cellObject이 객체 생성이 되어 값을 가진다면,
+        if (toggleState == 'TYPE') {
+          if (cellObject.type == 'HEALTH') {
+            //- type 1
+            days.push(
+              <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`} key={day}>
+                <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
+                <StyledImg className={`Img ${!isSameMonth(day, monthStart) ? 'none' : ''}`} src={'/CalendarPic/type1.png'} alt={'test'} width={30} height={30} onClick={onClick} />
+              </StyledDay>
+            );
+          } else if (cellObject.type == 'BALANCE') {
+            //- type 2
+            days.push(
+              <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`} key={day}>
+                <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
+                <StyledImg className={`Img ${!isSameMonth(day, monthStart) ? 'none' : ''}`} src={'/CalendarPic/type2.png'} alt={'test'} width={30} height={30} onClick={onClick} />
+              </StyledDay>
+            );
+          } else if (cellObject.type == 'INSTANT') {
+            // cellObject.type == "INSTANT" //- type 3
+            days.push(
+              <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`} key={day}>
+                <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
+                <StyledImg className={`Img ${!isSameMonth(day, monthStart) ? 'none' : ''}`} src={'/CalendarPic/type3.png'} alt={'test'} width={30} height={30} onClick={onClick} />
+              </StyledDay>
+            );
+          }
+        } else if (toggleState == 'AMOUNT') {
+          if (cellObject.quantity == 'OVEREATING') {
+            //- amount 1
+            days.push(
+              <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`} key={day}>
+                <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
+                <StyledImg className={`Img ${!isSameMonth(day, monthStart) ? 'none' : ''}`} src={'/CalendarPic/amount1.png'} alt={'test'} width={30} height={30} onClick={onClick} />
+              </StyledDay>
+            );
+          } else if (cellObject.quantity == 'LIGHT') {
+            //- amount 2
+            days.push(
+              <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`} key={day}>
+                <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
+                <StyledImg className={`Img ${!isSameMonth(day, monthStart) ? 'none' : ''}`} src={'/CalendarPic/amount2.png'} alt={'test'} width={30} height={30} onClick={onClick} />
+              </StyledDay>
+            );
+          } else if (cellObject.quantity == 'FITNESS') {
+            // cellObject.type == "FITNESS" //- amount 3
+            days.push(
+              <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`} key={day}>
+                <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
+                <StyledImg className={`Img ${!isSameMonth(day, monthStart) ? 'none' : ''}`} src={'/CalendarPic/amount3.png'} alt={'test'} width={30} height={30} onClick={onClick} />
+              </StyledDay>
+            );
+          }
+        }
+      } else {
+        // cellObject의 값이 없다면, 기본값 로직
+        days.push(
+          <StyledDay className={`col cell ${!isSameMonth(day, monthStart) ? 'disabled' : isSameDay(day, selectedDate) ? 'selected' : format(currentMonth, 'M') !== format(day, 'M') ? 'notvalid' : 'valid'}`} key={day}>
+            <p className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>{formattedDate}</p>
+            <StyledImg className={`Img ${!isSameMonth(day, monthStart) ? 'none' : ''}`} src={'/CalendarPic/default.png'} alt={'test'} width={30} height={30} onClick={onClick} />
+          </StyledDay>
+        );
+      }
       day = addDays(day, 1);
     }
-    rows.push(<StyledRow>{days}</StyledRow>);
-    // 위에서도 key={key}를 생략함
+    rows.push(<StyledRow key={day}>{days}</StyledRow>);
+
     days = [];
   }
+
   return <StyledBody>{rows}</StyledBody>;
 }
 

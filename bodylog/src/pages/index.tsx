@@ -1,7 +1,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { RecoilRoot } from 'recoil';
 import styled from 'styled-components';
+import ReactDOM from 'react-dom';
 
 function Index() {
   // 로그인 되어있을 때 자동으로 mypage로 이동

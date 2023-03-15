@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   reactStrictMode: true,
 
@@ -17,12 +18,12 @@ const nextConfig = {
         destination: `https://bodylog1.duckdns.org/login`,
       },
       {
-        source: '/api/meals',
-        destination: `https://bodylog1.duckdns.org/meals`,
+        source: `/api/:path*`,
+        destination: `https://bodylog1.duckdns.org/:path*`, // 도대체 :path*는 어떤 역할인가...?
       },
       {
-        source: '/api/member/meal',
-        destination: `https://bodylog1.duckdns.org/member/meal`,
+        source: `/api/:path*/update`,
+        destination: `https://bodylog1.duckdns.org/:path*/update`, // 도대체 :path*는 어떤 역할인가...?
       },
     ];
   },

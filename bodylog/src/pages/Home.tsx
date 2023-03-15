@@ -3,8 +3,11 @@ import Image from 'next/image';
 import Nav from '@/components/Nav/Nav';
 import Link from 'next/link';
 import UnderNav from '@/components/Nav/UnderNav';
+import { useEffect } from 'react';
+import router from 'next/router';
 
 function Home() {
+
   return (
     <>
       <Nav />
