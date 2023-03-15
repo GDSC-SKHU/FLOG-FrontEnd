@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { addMonths, subMonths } from 'date-fns';
 import styled from 'styled-components';
 import RenderHeader from '@/components/Calendar/RenderHeader';
 import RenderDays from '@/components/Calendar/RenderDays';
 import RenderCells from '@/components/Calendar/RenderCells';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { idState, jsonState } from '@/store/store';
+import axios from 'axios';
 
 function Calender() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -19,12 +22,32 @@ function Calender() {
   const onDateClick = (day: React.SetStateAction<Date>) => {
     setSelectedDate(day);
   };
+  const [globalJson, setGlobalJson] = useRecoilState(jsonState);
+  const globalId = useRecoilValue(idState);
+  useEffect(() => {
+    const url = `/api/${globalId}`;
+    axios
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ` + localStorage.getItem('logintoken'),
+        },
+      })
+      .then((response) => {
+        setGlobalJson(response.data);
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  }, []);
+
   return (
-    <StyledCalendar>
-      <RenderHeader currentMonth={currentMonth} prevMonth={prevMonth} nextMonth={nextMonth} />
-      <RenderDays />
-      <CalRenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
-    </StyledCalendar>
+    <>
+      <StyledCalendar>
+        <RenderHeader currentMonth={currentMonth} prevMonth={prevMonth} nextMonth={nextMonth} />
+        <RenderDays />
+        <CalRenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
+      </StyledCalendar>
+    </>
   );
 }
 

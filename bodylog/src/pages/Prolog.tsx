@@ -3,6 +3,7 @@ import Prolog2 from '@/components/Prolog/Prolog2';
 import Prolog3 from '@/components/Prolog/Prolog3';
 import styled from 'styled-components';
 import Nav from '@/components/Nav/Nav';
+import UnderNav from '@/components/Nav/UnderNav';
 
 function Prolog() {
   return (
@@ -13,6 +14,7 @@ function Prolog() {
         <Prolog2 />
         <Prolog3 />
       </StyledContainer>
+      <UnderNav />
     </>
   );
 }

@@ -3,15 +3,18 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert';
-
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { idState, memberIdState } from '../store/store';
 function login() {
   const router = useRouter();
 
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
+  const [globalId, setGlobalId] = useRecoilState(idState);
+  const [globalmemberId, setGlobalmemberId] = useRecoilState(memberIdState);
   const onChangeId = (e: ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
+    setGlobalId(e.target.value);
   };
 
   const onChangePw = (e: ChangeEvent<HTMLInputElement>) => {
@@ -20,14 +23,16 @@ function login() {
   // 로그인 버튼 로직
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    localStorage.setItem('userId', id); // 사용자 아이디 로컬저장소에 저장
     const login = async () => {
       const response = await axios
-        .post('/api/login', {
+        .post(`/api/login`, {
           userId: id,
           userPassword: password,
         })
 
         .then((response) => {
+          setGlobalmemberId(response.data.memberId);
           localStorage.setItem('logintoken', response.data.accessToken);
           console.log('axios.post 성공 후');
           console.log('logintoken: ' + localStorage.getItem('logintoken'));
