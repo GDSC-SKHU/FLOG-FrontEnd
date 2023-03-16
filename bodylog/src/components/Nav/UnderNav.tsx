@@ -13,21 +13,32 @@ function UnderNav() {
   };
 
   const onMylog = () => {
-    router.push({
-      pathname: '/Mylog',
-    });
+    if (localStorage.getItem('logintoken') == null) {
+      alert('로그인 머저 해라');
+    } else {
+      router.push({
+        pathname: '/Mylog',
+      });
+    }
   };
 
   const onCalendar = () => {
-    router.push({
-      pathname: '/Mycalendar',
-    });
+    if (localStorage.getItem('logintoken') == null) {
+      alert('로그인 머저 해라');
+    } else {
+      router.push({
+        pathname: '/Mycalendar',
+      });
+    }
   };
 
   const onLog = () => {
     if (localStorage.getItem('logintoken') != null) {
       localStorage.removeItem('logintoken');
       router.push('/');
+      return <></>;
+    } else {
+      return <></>;
     }
   };
 

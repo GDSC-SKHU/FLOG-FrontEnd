@@ -10,6 +10,7 @@ import { idState, jsonState } from '@/store/store';
 import axios from 'axios';
 
 function Calender() {
+  axios.defaults.withCredentials = true;
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -31,6 +32,7 @@ function Calender() {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem('logintoken'),
         },
+        withCredentials: true,
       })
       .then((response) => {
         setGlobalJson(response.data);

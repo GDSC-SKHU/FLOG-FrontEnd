@@ -17,7 +17,7 @@ export default Nav;
 
 const StyledNav = styled.nav`
   width: 100%;
-  height: 9%;
+  height: 8%;
   display: flex;
   position: fixed;
   align-items: center;

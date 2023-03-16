@@ -10,12 +10,10 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-
 function Prolog() {
   return (
     <>
       <Nav />
-
       <StyledDiv>
         <Swiper spaceBetween={30} centeredSlides={true} speed={1200} autoplay={{ delay: 5000, disableOnInteraction: true }} pagination={{ clickable: false }} navigation={true} modules={[Autoplay, Pagination, Navigation]} className='mySwiper'>
           <SwiperSlide>
@@ -29,7 +27,6 @@ function Prolog() {
           </SwiperSlide>
         </Swiper>
       </StyledDiv>
-
     </>
   );
 }

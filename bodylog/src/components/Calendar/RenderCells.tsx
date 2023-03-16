@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import withReactContent from 'sweetalert2-react-content';
-import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
+import { RecoilRoot, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { idState, jsonState, toogleState } from 'src/store/store';
 
 interface CProps {
@@ -40,6 +40,7 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
   const toggleState = useRecoilValue(toogleState);
   const globalJson = useRecoilValue(jsonState);
   const MySwal = withReactContent(Swal);
+  const resetToogle = useResetRecoilState(toogleState);
 
   useEffect(() => {
     //! axios,get 저장할 때 마다 get 요청 보내기
@@ -50,6 +51,7 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
           headers: {
             Authorization: `Bearer ` + localStorage.getItem('logintoken'),
           },
+          withCredentials: true,
         })
         .then((response) => {
           console.log(response.data); // 이게 맞음
@@ -190,7 +192,8 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
                 title: 'change saved!!',
                 confirmButtonColor: '#5cc189',
               }).then(() => {
-                //window.location.pathname = '/Mycalendar';
+                resetToogle();
+                window.location.pathname = '/Mycalendar';
               });
             } else {
               const dayPost = async () => {
@@ -203,6 +206,7 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
                       headers: {
                         Authorization: `Bearer ` + localStorage.getItem('logintoken'),
                       },
+                      withCredentials: true,
                     }
                   )
                   .then((response) => {
@@ -222,7 +226,8 @@ function RenderCells({ currentMonth, selectedDate, onDateClick }: CProps) {
                 title: 'saved!',
                 confirmButtonColor: '#5cc189',
               }).then(() => {
-                //window.location.pathname = '/Mycalendar';
+                resetToogle();
+                window.location.pathname = '/Mycalendar';
               });
             }
           }
