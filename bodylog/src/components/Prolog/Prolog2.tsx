@@ -6,20 +6,18 @@ function Prolog2() {
     <>
       <StyledContainer>
         <StyledContent>
-          <StyledCardWrapper>
-            <StyledCard>
-              <StyledImgContent>
-                <StyledOverlay></StyledOverlay>
-                <StyledCardImg>
-                  <Image src={'/eating habits.webp'} alt={'eating'} width={250} height={180} style={{ borderRadius: 20 }} />
-                </StyledCardImg>
-              </StyledImgContent>
-              <StyledCardContent>
-                <StyledH2>Good Meal</StyledH2>
-                <StyledP>Healthy food recipe!</StyledP>
-              </StyledCardContent>
-            </StyledCard>
-          </StyledCardWrapper>
+          <StyledCard>
+            <StyledImgContent>
+              <StyledOverlay />
+              <StyledCardImg>
+                <Image src={'/eating habits.jpeg'} alt={'eating'} width={250} height={180} style={{ borderRadius: 20 }} />
+              </StyledCardImg>
+            </StyledImgContent>
+            <StyledCardContent>
+              <StyledH2>Good Meal</StyledH2>
+              <StyledP>Healthy eating habits!</StyledP>
+            </StyledCardContent>
+          </StyledCard>
         </StyledContent>
       </StyledContainer>
     </>
@@ -39,8 +37,6 @@ const StyledContainer = styled.div`
 const StyledContent = styled.div`
   margin: 0 2.5rem;
 `;
-
-const StyledCardWrapper = styled.div``;
 
 const StyledCard = styled.div`
   width: 20rem;

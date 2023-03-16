@@ -15,21 +15,19 @@ function Prolog3() {
     <>
       <StyledContainer>
         <StyledContent>
-          <StyledCardWrapper>
-            <StyledCard>
-              <StyledImgContent>
-                <StyledOverlay></StyledOverlay>
-                <StyledCardImg>
-                  <Image src={'/foodlog.jpeg'} alt={'foodlog'} width={250} height={180} style={{ borderRadius: 20 }} />
-                </StyledCardImg>
-              </StyledImgContent>
-              <StyledCardContent>
-                <StyledH2>FoodLog</StyledH2>
-                <StyledP>Record your daily Food Routine!</StyledP>
-                <StyledBtn onClick={onHome}>Start your FLOG</StyledBtn>
-              </StyledCardContent>
-            </StyledCard>
-          </StyledCardWrapper>
+          <StyledCard>
+            <StyledImgContent>
+              <StyledOverlay/>
+              <StyledCardImg>
+                <Image src={'/FoodLog.jpeg'} alt={'foodlog'} width={250} height={180} style={{ borderRadius: 20 }} />
+              </StyledCardImg>
+            </StyledImgContent>
+            <StyledCardContent>
+              <StyledH2>FoodLog</StyledH2>
+              <StyledP>Record your daily Food Routine!</StyledP>
+              <StyledBtn onClick={onHome}>Start your FLOG</StyledBtn>
+            </StyledCardContent>
+          </StyledCard>
         </StyledContent>
       </StyledContainer>
     </>
@@ -49,8 +47,6 @@ const StyledContainer = styled.div`
 const StyledContent = styled.div`
   margin: 0 2.5rem;
 `;
-
-const StyledCardWrapper = styled.div``;
 
 const StyledCard = styled.div`
   width: 20rem;

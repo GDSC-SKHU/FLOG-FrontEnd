@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -5,17 +6,19 @@ import styled from 'styled-components';
 
 function Index() {
   const router = useRouter();
+
   const linkProlog = () => {
     router.push({
       pathname: '/Prolog',
     });
   };
   useEffect(() => {
-    localStorage.removeItem('logintoken');
+  localStorage.removeItem('logintoken');
     setTimeout(linkProlog, 3000);
   }, []);
 
   return (
+
     <StyledIndexBox>
       <ImageBox>
         <Image src={'/Flogo-white.png'} alt={'logoimg'} width={170} height={170} />
@@ -23,6 +26,7 @@ function Index() {
         <StyledText>FLOG</StyledText>
       </ImageBox>
     </StyledIndexBox>
+
   );
 }
 
@@ -51,3 +55,4 @@ const StyledText = styled.p`
   font-weight: 550;
   letter-spacing: 0.2rem;
 `;
+
