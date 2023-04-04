@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import UnderNav from '@/components/Nav/UnderNav';
 import { idState, jsonState, memberIdState } from '@/store/store';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { RecoilState } from 'recoil';
 import type { ObjectEx } from '@/store/store';
 function Mylog() {
@@ -23,6 +23,7 @@ function Mylog() {
   axios.defaults.withCredentials = true;
   const [globalJson, setGlobalJson] = useRecoilState(jsonState);
   const globalId = useRecoilValue(idState);
+
   const [typeofMeal, setTypeofMeal] = useState<null | Map<string, number>>(
     new Map<string, number>([
       ['HEALTH', 0],
@@ -78,6 +79,8 @@ function Mylog() {
           setGlobalJson(filterArr);
         });
 
+          return new Date(eachData.selectedDate as string).getMonth() + 1 === currentMonth;
+        });
         if (filterResponse.length > 0) {
           setGlobalJson(filterArr);
         }
@@ -107,6 +110,16 @@ function Mylog() {
           </div>
         ))}
       </StyledLogWrapper>
+      <h1>Mylog page</h1>
+      {globalJson.map((eachJson, index) => (
+        <div key={eachJson.mealId + ''}>
+          <div>{eachJson.type + ''}</div>
+          <div>{eachJson.quantity + ''}</div>
+          <div>{eachJson.mealId + ''}</div>
+
+          <div>{eachJson.selectedDate + ''}</div>
+        </div>
+      ))}
       <UnderNav />
     </>
   );
